@@ -11,8 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sc.noney.R;
-import com.sc.noney.data.DummyContent;
-import com.sc.noney.data.DummyContent.DummyItem;
+import com.sc.noney.dto.Expense;
 
 import butterknife.ButterKnife;
 
@@ -25,6 +24,8 @@ import butterknife.ButterKnife;
 public class ExpensesFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "ExpensesFragment.COLUMN_COUNT";
+
+    private RecyclerView.Adapter adapter;
 
     public static ExpensesFragment newInstance(int columnCount) {
         ExpensesFragment fragment = new ExpensesFragment();
@@ -70,11 +71,10 @@ public class ExpensesFragment extends Fragment {
             else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
-            recyclerView.setAdapter(new ExpenseRecyclerViewAdapter(DummyContent.ITEMS, onInteractionListener));
+            recyclerView.setAdapter(new ExpenseRecyclerViewAdapter(context, onInteractionListener));
         }
         return view;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -104,6 +104,6 @@ public class ExpensesFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnInteractionListener {
-        void onInteraction(DummyItem item);
+        void onInteraction(Expense item);
     }
 }

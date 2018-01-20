@@ -1,5 +1,6 @@
 package com.sc.noney.ui.expense;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,23 +8,32 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.sc.noney.R;
-import com.sc.noney.data.DummyContent.DummyItem;
+import com.sc.noney.dto.Expense;
+import com.sc.noney.model.ExpenseRepository;
 
+import java.util.Collections;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DummyItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Expense} and makes a call to the
  * specified {@link ExpensesFragment.OnInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> dummyItems;
     private final ExpensesFragment.OnInteractionListener onInteractionListener;
+    private List<Expense> items = Collections.emptyList();
 
-    public ExpenseRecyclerViewAdapter(List<DummyItem> items, ExpensesFragment.OnInteractionListener listener) {
-        dummyItems = items;
+    public ExpenseRecyclerViewAdapter(Context context, ExpensesFragment.OnInteractionListener listener) {
         onInteractionListener = listener;
+
+        ExpenseRepository.getInstance(context).getExpenses().subscribe(it -> {
+            items = it;
+            notifyDataSetChanged();
+        });
     }
 
     @Override
@@ -34,43 +44,42 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = dummyItems.get(position);
-        holder.mIdView.setText(dummyItems.get(position).id);
-        holder.mContentView.setText(dummyItems.get(position).content);
+        holder.item = items.get(position);
+        holder.idView.setText(items.get(position).id);
+        holder.contentView.setText(items.get(position).content);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != onInteractionListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    onInteractionListener.onInteraction(holder.mItem);
-                }
+        holder.view.setOnClickListener(view -> {
+            if (null != onInteractionListener) {
+                // Notify the active callbacks interface (the activity, if the
+                // fragment is attached to one) that an item has been selected.
+                onInteractionListener.onInteraction(holder.item);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return dummyItems.size();
+        return items.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mIdView;
-        public final TextView mContentView;
-        public DummyItem mItem;
+
+        final View view;
+        @BindView(R.id.id) TextView idView;
+        @BindView(R.id.content) TextView contentView;
+
+        Expense item;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            ButterKnife.bind(this, view);
+
+            this.view = view;
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + contentView.getText() + "'";
         }
     }
 }
