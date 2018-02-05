@@ -30,7 +30,7 @@ public class DummyExpenseDB implements ExpenseDataSource {
         List<Expense> expenses = Arrays.asList(
                 new Expense("A", "a1", "apple"),
                 new Expense("B", "b3", "banana"),
-                new Expense("C", "c2", "cat")
+                new Expense("C", "c2", "carambola")
         );
         return Flowable.fromArray(expenses);
     }
