@@ -46,6 +46,10 @@ android {
             testProguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguardTest-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {

@@ -5,17 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.sc.noney.R;
+import com.sc.noney.databinding.FragmentExpenseBinding;
 import com.sc.noney.dto.Expense;
 import com.sc.noney.model.ExpenseRepository;
 
 import java.util.Collections;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Expense} and makes a call to the
@@ -38,23 +34,23 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_expense, parent, false);
-        return new ViewHolder(view);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        FragmentExpenseBinding binding = FragmentExpenseBinding.inflate(inflater, parent, false);
+        return new ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.item = items.get(position);
-        holder.idView.setText(items.get(position).id);
-        holder.contentView.setText(items.get(position).content);
-
-        holder.view.setOnClickListener(view -> {
+        Expense item = items.get(position);
+        View.OnClickListener onClickListener = v -> {
             if (null != onInteractionListener) {
                 // Notify the active callbacks interface (the activity, if the
                 // fragment is attached to one) that an item has been selected.
-                onInteractionListener.onInteraction(holder.item);
+                onInteractionListener.onInteraction(item);
             }
-        });
+        };
+
+        holder.bind(item, onClickListener);
     }
 
     @Override
@@ -64,22 +60,22 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        final View view;
-        @BindView(R.id.id) TextView idView;
-        @BindView(R.id.content) TextView contentView;
+        FragmentExpenseBinding binding;
 
-        Expense item;
+        ViewHolder(FragmentExpenseBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
 
-        public ViewHolder(View view) {
-            super(view);
-            ButterKnife.bind(this, view);
-
-            this.view = view;
+        void bind(Expense item, View.OnClickListener onClickListener) {
+            binding.setExpense(item);
+            binding.setOnClickListener(onClickListener);
+            binding.executePendingBindings();
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + contentView.getText() + "'";
+            return super.toString() + " '" + binding.getExpense().content + "'";
         }
     }
 }

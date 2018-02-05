@@ -3,8 +3,8 @@ package com.sc.noney.model;
 import android.content.Context;
 
 import com.sc.noney.db.DummyExpenseDB;
-import com.sc.noney.dto.Expense;
 import com.sc.noney.db.ExpenseDB;
+import com.sc.noney.dto.Expense;
 
 import java.util.List;
 
