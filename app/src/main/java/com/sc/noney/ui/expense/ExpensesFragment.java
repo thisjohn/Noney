@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sc.noney.R;
-import com.sc.noney.dto.Expense;
+import com.sc.noney.data.Expense;
 
 import butterknife.ButterKnife;
 

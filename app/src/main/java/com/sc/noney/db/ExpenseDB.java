@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
-import com.sc.noney.dto.Expense;
+import com.sc.noney.data.Expense;
 import com.sc.noney.model.ExpenseDataSource;
 import com.squareup.sqlbrite2.BriteDatabase;
 

@@ -1,4 +1,4 @@
-package com.sc.noney.dto;
+package com.sc.noney.data;
 
 import android.databinding.ObservableField;
 

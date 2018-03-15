@@ -1,6 +1,6 @@
 package com.sc.noney.model;
 
-import com.sc.noney.dto.Expense;
+import com.sc.noney.data.Expense;
 
 import java.util.List;
 

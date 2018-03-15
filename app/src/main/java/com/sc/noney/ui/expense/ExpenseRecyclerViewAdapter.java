@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sc.noney.databinding.FragmentExpenseBinding;
-import com.sc.noney.dto.Expense;
+import com.sc.noney.data.Expense;
 import com.sc.noney.model.ExpenseRepository;
 
 import java.util.Collections;
