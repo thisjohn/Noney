@@ -1,25 +1,36 @@
 package com.sc.noney.data;
 
-import android.databinding.ObservableField;
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Created by sclee on 2018/1/19.
  */
 
+@Entity(tableName = "expenses")
 public class Expense {
 
-    public ObservableField<String> id = new ObservableField<>();
-    public ObservableField<String> content = new ObservableField<>();
-    public ObservableField<String> detail = new ObservableField<>();
+    @PrimaryKey
+    @NonNull
+    public String id;
 
-    public Expense(String id, String content, String detail) {
-        this.id.set(id);
-        this.content.set(content);
-        this.detail.set(detail);
+    @ColumnInfo(name = "content")
+    public String content;
+
+    @ColumnInfo(name = "detail")
+    public String detail;
+
+    public Expense(@NonNull String id, String content, String detail) {
+        this.id = id;
+        this.content = content;
+        this.detail = detail;
     }
 
     @Override
     public String toString() {
-        return content.get();
+        return content;
     }
 }

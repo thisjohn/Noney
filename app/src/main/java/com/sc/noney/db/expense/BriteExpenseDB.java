@@ -1,11 +1,12 @@
-package com.sc.noney.db;
+package com.sc.noney.db.expense;
 
 import android.content.Context;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
 
 import com.sc.noney.data.Expense;
-import com.sc.noney.model.ExpenseDataSource;
+import com.sc.noney.db.BriteDB;
+import com.sc.noney.source.ExpenseDataSource;
 import com.squareup.sqlbrite2.BriteDatabase;
 
 import java.util.List;
@@ -17,21 +18,21 @@ import io.reactivex.Flowable;
  * Created by sclee on 2018/1/20.
  */
 
-public class ExpenseDB implements ExpenseDataSource {
+public class BriteExpenseDB implements ExpenseDataSource {
 
-    private static ExpenseDB instance;
+    private static BriteExpenseDB instance;
 
-    synchronized public static ExpenseDB getInstance(Context context) {
+    synchronized public static BriteExpenseDB getInstance(Context context) {
         if (instance == null) {
-            instance = new ExpenseDB(context);
+            instance = new BriteExpenseDB(context);
         }
         return instance;
     }
 
     private BriteDatabase briteDB;
 
-    private ExpenseDB(Context context) {
-        briteDB = LocalDB.getInstance(context).getDB();
+    private BriteExpenseDB(Context context) {
+        briteDB = BriteDB.getInstance(context).getDB();
     }
 
     @NonNull

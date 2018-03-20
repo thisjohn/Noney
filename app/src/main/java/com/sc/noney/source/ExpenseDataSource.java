@@ -1,4 +1,4 @@
-package com.sc.noney.model;
+package com.sc.noney.source;
 
 import com.sc.noney.data.Expense;
 

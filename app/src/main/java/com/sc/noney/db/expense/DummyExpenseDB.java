@@ -1,7 +1,7 @@
-package com.sc.noney.db;
+package com.sc.noney.db.expense;
 
 import com.sc.noney.data.Expense;
-import com.sc.noney.model.ExpenseDataSource;
+import com.sc.noney.source.ExpenseDataSource;
 
 import java.util.Arrays;
 import java.util.List;
