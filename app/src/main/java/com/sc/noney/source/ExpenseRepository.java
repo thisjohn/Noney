@@ -3,7 +3,6 @@ package com.sc.noney.source;
 import android.content.Context;
 
 import com.sc.noney.data.Expense;
-import com.sc.noney.db.expense.BriteExpenseDB;
 
 import java.util.List;
 
@@ -27,8 +26,8 @@ public class ExpenseRepository {
     private ExpenseDataSource dataSource;
 
     private ExpenseRepository(Context context) {
-        dataSource = BriteExpenseDB.getInstance(context);
-        //dataSource = DummyExpenseDB.getInstance();
+        //dataSource = ExpenseBriteDataSource.getInstance(context);
+        dataSource = ExpenseDummyDataSource.getInstance();
     }
 
     public Flowable<List<Expense>> getExpenses() {

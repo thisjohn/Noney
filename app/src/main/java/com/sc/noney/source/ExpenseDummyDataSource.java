@@ -1,7 +1,6 @@
-package com.sc.noney.db.expense;
+package com.sc.noney.source;
 
 import com.sc.noney.data.Expense;
-import com.sc.noney.source.ExpenseDataSource;
 
 import java.util.Arrays;
 import java.util.List;
@@ -12,18 +11,18 @@ import io.reactivex.Flowable;
  * Created by sclee on 2018/1/20.
  */
 
-public class DummyExpenseDB implements ExpenseDataSource {
+public class ExpenseDummyDataSource implements ExpenseDataSource {
 
-    private static DummyExpenseDB instance;
+    private static ExpenseDummyDataSource instance;
 
-    synchronized public static DummyExpenseDB getInstance() {
+    synchronized public static ExpenseDummyDataSource getInstance() {
         if (instance == null) {
-            instance = new DummyExpenseDB();
+            instance = new ExpenseDummyDataSource();
         }
         return instance;
     }
 
-    private DummyExpenseDB() {}
+    private ExpenseDummyDataSource() {}
 
     @Override
     public Flowable<List<Expense>> getExpenses() {

@@ -1,4 +1,4 @@
-package com.sc.noney.db.expense;
+package com.sc.noney.source;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 
 import com.sc.noney.data.Expense;
 import com.sc.noney.db.BriteDB;
-import com.sc.noney.source.ExpenseDataSource;
 import com.squareup.sqlbrite2.BriteDatabase;
 
 import java.util.List;
@@ -18,20 +17,20 @@ import io.reactivex.Flowable;
  * Created by sclee on 2018/1/20.
  */
 
-public class BriteExpenseDB implements ExpenseDataSource {
+public class ExpenseBriteDataSource implements ExpenseDataSource {
 
-    private static BriteExpenseDB instance;
+    private static ExpenseBriteDataSource instance;
 
-    synchronized public static BriteExpenseDB getInstance(Context context) {
+    synchronized public static ExpenseBriteDataSource getInstance(Context context) {
         if (instance == null) {
-            instance = new BriteExpenseDB(context);
+            instance = new ExpenseBriteDataSource(context);
         }
         return instance;
     }
 
     private BriteDatabase briteDB;
 
-    private BriteExpenseDB(Context context) {
+    private ExpenseBriteDataSource(Context context) {
         briteDB = BriteDB.getInstance(context).getDB();
     }
 
