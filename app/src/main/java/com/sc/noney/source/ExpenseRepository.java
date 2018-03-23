@@ -1,7 +1,5 @@
 package com.sc.noney.source;
 
-import android.content.Context;
-
 import com.sc.noney.data.Expense;
 
 import java.util.List;
@@ -16,18 +14,17 @@ public class ExpenseRepository {
 
     private static ExpenseRepository instance;
 
-    synchronized public static ExpenseRepository getInstance(Context context) {
+    synchronized public static ExpenseRepository getInstance(ExpenseDataSource dataSource) {
         if (instance == null) {
-            instance = new ExpenseRepository(context);
+            instance = new ExpenseRepository(dataSource);
         }
         return instance;
     }
 
     private ExpenseDataSource dataSource;
 
-    private ExpenseRepository(Context context) {
-        //dataSource = ExpenseBriteDataSource.getInstance(context);
-        dataSource = ExpenseDummyDataSource.getInstance();
+    private ExpenseRepository(ExpenseDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public Flowable<List<Expense>> getExpenses() {

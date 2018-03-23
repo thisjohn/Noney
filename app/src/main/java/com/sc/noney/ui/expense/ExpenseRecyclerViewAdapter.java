@@ -6,9 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sc.noney.Injector;
 import com.sc.noney.databinding.FragmentExpenseBinding;
 import com.sc.noney.data.Expense;
-import com.sc.noney.source.ExpenseRepository;
 
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +26,7 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
     public ExpenseRecyclerViewAdapter(Context context, ExpensesFragment.OnInteractionListener listener) {
         onInteractionListener = listener;
 
-        ExpenseRepository.getInstance(context).getExpenses().subscribe(it -> {
+        Injector.provideExpenseRepository(context).getExpenses().subscribe(it -> {
             items = it;
             notifyDataSetChanged();
         });
