@@ -6,9 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sc.noney.databinding.FragmentExpenseBinding;
-import com.sc.noney.dto.Expense;
-import com.sc.noney.model.ExpenseRepository;
+import com.sc.noney.data.Expense;
+import com.sc.noney.databinding.ItemExpenseBinding;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,22 +19,22 @@ import java.util.List;
  */
 public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecyclerViewAdapter.ViewHolder> {
 
-    private final ExpensesFragment.OnInteractionListener onInteractionListener;
     private List<Expense> items = Collections.emptyList();
+    private final ExpensesFragment.OnInteractionListener onInteractionListener;
 
     public ExpenseRecyclerViewAdapter(Context context, ExpensesFragment.OnInteractionListener listener) {
         onInteractionListener = listener;
+    }
 
-        ExpenseRepository.getInstance(context).getExpenses().subscribe(it -> {
-            items = it;
-            notifyDataSetChanged();
-        });
+    public void setExpenses(List<Expense> items) {
+        this.items = items;
+        notifyDataSetChanged();;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        FragmentExpenseBinding binding = FragmentExpenseBinding.inflate(inflater, parent, false);
+        ItemExpenseBinding binding = ItemExpenseBinding.inflate(inflater, parent, false);
         return new ViewHolder(binding);
     }
 
@@ -60,9 +59,9 @@ public class ExpenseRecyclerViewAdapter extends RecyclerView.Adapter<ExpenseRecy
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        FragmentExpenseBinding binding;
+        ItemExpenseBinding binding;
 
-        ViewHolder(FragmentExpenseBinding binding) {
+        ViewHolder(ItemExpenseBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }

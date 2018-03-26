@@ -13,24 +13,24 @@ import io.reactivex.schedulers.Schedulers;
  * Created by sclee on 2018/1/20.
  */
 
-public class LocalDB extends SQLiteOpenHelper {
+public class BriteDB extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "noney.db";
+    private static final String DB_NAME = "noney_brite.db";
     private static final int DB_VERSION = 1;
 
-    private static LocalDB instance = null;
+    private static BriteDB instance = null;
 
-    synchronized public static LocalDB getInstance(Context context) {
+    synchronized public static BriteDB getInstance(Context context) {
         if (instance == null) {
-            instance = new LocalDB(context);
+            instance = new BriteDB(context);
         }
         return instance;
     }
 
     private BriteDatabase briteDB;
 
-    private LocalDB(Context context) {
-        super(context, DB_NAME, null, DB_VERSION);
+    private BriteDB(Context context) {
+        super(context, BriteDB.DB_NAME, null, BriteDB.DB_VERSION);
 
         SqlBrite sqlBrite = new SqlBrite.Builder().build();
         briteDB = sqlBrite.wrapDatabaseHelper(this, Schedulers.io());

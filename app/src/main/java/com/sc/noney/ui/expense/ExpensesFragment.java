@@ -1,8 +1,10 @@
 package com.sc.noney.ui.expense;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.app.Fragment;
+
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.sc.noney.R;
-import com.sc.noney.dto.Expense;
-
-import butterknife.ButterKnife;
+import com.sc.noney.ViewModelFactory;
+import com.sc.noney.data.Expense;
+import com.sc.noney.databinding.FragmentExpensesBinding;
 
 /**
  * A fragment representing a list of Items.
@@ -25,8 +26,6 @@ public class ExpensesFragment extends Fragment {
 
     private static final String ARG_COLUMN_COUNT = "ExpensesFragment.COLUMN_COUNT";
 
-    private RecyclerView.Adapter adapter;
-
     public static ExpensesFragment newInstance(int columnCount) {
         ExpensesFragment fragment = new ExpensesFragment();
 
@@ -36,6 +35,8 @@ public class ExpensesFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+    private ExpenseRecyclerViewAdapter adapter;
 
     private int columnCount = 1;
     private OnInteractionListener onInteractionListener;
@@ -58,10 +59,15 @@ public class ExpensesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_expenses, container, false);
-        ButterKnife.bind(this, view);
+        FragmentExpensesBinding binding = FragmentExpensesBinding.inflate(inflater, container, false);
 
-        // Set the adapter
+        ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
+        ExpensesViewModel viewModel = ViewModelProviders.of(this, factory).get(ExpensesViewModel.class);
+
+        binding.setViewModel(viewModel);
+
+        // Set adapter
+        View view = binding.getRoot();
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -71,8 +77,17 @@ public class ExpensesFragment extends Fragment {
             else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
             }
-            recyclerView.setAdapter(new ExpenseRecyclerViewAdapter(context, onInteractionListener));
+            adapter = new ExpenseRecyclerViewAdapter(context, onInteractionListener);
+            recyclerView.setAdapter(adapter);
         }
+
+        // Observe
+        viewModel.getExpenses().observe(this, it -> {
+            if (adapter != null) {
+                adapter.setExpenses(it);
+            }
+        });
+
         return view;
     }
 
