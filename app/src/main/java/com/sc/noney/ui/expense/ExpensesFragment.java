@@ -1,5 +1,6 @@
 package com.sc.noney.ui.expense;
 
+import android.app.Application;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public class ExpensesFragment extends Fragment {
         return fragment;
     }
 
+    private FragmentExpensesBinding binding;
     private ExpenseRecyclerViewAdapter adapter;
 
     private int columnCount = 1;
@@ -59,36 +61,14 @@ public class ExpensesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        FragmentExpensesBinding binding = FragmentExpensesBinding.inflate(inflater, container, false);
+        binding = FragmentExpensesBinding.inflate(inflater, container, false);
 
-        ViewModelFactory factory = ViewModelFactory.getInstance(getActivity().getApplication());
-        ExpensesViewModel viewModel = ViewModelProviders.of(this, factory).get(ExpensesViewModel.class);
+        setupViewModel();
+        setupAdapter();
 
-        binding.setViewModel(viewModel);
+        subscribe();
 
-        // Set adapter
-        View view = binding.getRoot();
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
-            if (columnCount <= 1) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            }
-            else {
-                recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
-            }
-            adapter = new ExpenseRecyclerViewAdapter(context, onInteractionListener);
-            recyclerView.setAdapter(adapter);
-        }
-
-        // Observe
-        viewModel.getExpenses().observe(this, it -> {
-            if (adapter != null) {
-                adapter.setExpenses(it);
-            }
-        });
-
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -106,6 +86,39 @@ public class ExpensesFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         onInteractionListener = null;
+    }
+
+    private void setupViewModel() {
+        Application application = getActivity().getApplication();
+        ViewModelFactory factory = ViewModelFactory.getInstance(application);
+
+        ExpensesViewModel viewModel = ViewModelProviders.of(this, factory).get(ExpensesViewModel.class);
+
+        binding.setViewModel(viewModel);
+    }
+
+    private void setupAdapter() {
+        RecyclerView recyclerView = binding.list;
+
+        Context context = recyclerView.getContext();
+        if (columnCount <= 1) {
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        }
+        else {
+            recyclerView.setLayoutManager(new GridLayoutManager(context, columnCount));
+        }
+
+        adapter = new ExpenseRecyclerViewAdapter(context, onInteractionListener);
+        recyclerView.setAdapter(adapter);
+    }
+
+    private void subscribe() {
+        ExpensesViewModel viewModel = binding.getViewModel();
+        viewModel.getExpenses().observe(this, it -> {
+            if (adapter != null) {
+                adapter.setExpenses(it);
+            }
+        });
     }
 
     /**
