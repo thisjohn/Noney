@@ -1,4 +1,5 @@
-<fragment android:id="@+id/fragment"
+<fragment
+    android:id="@+id/fragment"
     android:name="com.sc.noney.ui.expense.ExpensesFragment"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
