@@ -9,6 +9,8 @@ import com.sc.noney.data.Expense;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 /**
  * Created by sclee on 2018/3/16.
  */
@@ -20,10 +22,10 @@ public interface ExpenseDao {
     void bulkInsert(Expense... expense);
 
     @Query("SELECT * FROM expenses")
-    List<Expense> getAll();
+    Flowable<List<Expense>> getAll();
 
     @Query("SELECT * FROM expenses WHERE id = :id")
-    Expense get(String id);
+    Flowable<Expense> get(String id);
 
     @Delete
     void delete(Expense expense);
