@@ -64,7 +64,7 @@ public class ExpensesFragment extends Fragment {
         binding = FragmentExpensesBinding.inflate(inflater, container, false);
 
         setupViewModel();
-        setupAdapter();
+        setupUI();
 
         subscribe();
 
@@ -97,7 +97,8 @@ public class ExpensesFragment extends Fragment {
         binding.setViewModel(viewModel);
     }
 
-    private void setupAdapter() {
+    private void setupUI() {
+        // List
         RecyclerView recyclerView = binding.list;
 
         Context context = recyclerView.getContext();

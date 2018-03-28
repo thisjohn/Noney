@@ -27,6 +27,10 @@ public class ExpenseRepository {
         this.dataSource = dataSource;
     }
 
+    public void addExpense(Expense expense) {
+        dataSource.insertOrUpdateExpense(expense);
+    }
+
     public Flowable<List<Expense>> getExpenses() {
         return dataSource.getExpenses();
     }

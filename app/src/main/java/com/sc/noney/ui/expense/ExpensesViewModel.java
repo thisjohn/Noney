@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.LiveDataReactiveStreams;
+import android.view.View;
 
 import com.sc.noney.data.Expense;
 import com.sc.noney.source.ExpenseRepository;
@@ -18,6 +19,8 @@ import io.reactivex.Flowable;
 
 public class ExpensesViewModel extends AndroidViewModel {
 
+    public Handler handler = new Handler();
+
     private ExpenseRepository expenseRepo;
 
     public ExpensesViewModel(Application application, ExpenseRepository expenseRepo) {
@@ -25,8 +28,21 @@ public class ExpensesViewModel extends AndroidViewModel {
         this.expenseRepo = expenseRepo;
     }
 
+    public void addExpense(Expense expense) {
+        expenseRepo.addExpense(expense);
+    }
+
     public LiveData<List<Expense>> getExpenses() {
         Flowable<List<Expense>> flowable = this.expenseRepo.getExpenses();
         return LiveDataReactiveStreams.fromPublisher(flowable);
+    }
+
+    public class Handler {
+
+        public void onClick(View view) {
+            // TODO
+            Expense expense = new Expense("9", "QQ", "TT");
+            expenseRepo.addExpense(expense);
+        }
     }
 }

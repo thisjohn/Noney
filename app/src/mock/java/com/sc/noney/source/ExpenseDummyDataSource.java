@@ -2,6 +2,7 @@ package com.sc.noney.source;
 
 import com.sc.noney.data.Expense;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,11 +30,11 @@ public class ExpenseDummyDataSource implements ExpenseDataSource {
     private Subject<List<Expense>> expensesSubject;
 
     private ExpenseDummyDataSource() {
-        expenses = Arrays.asList(
-                new Expense("A", "a1", "apple"),
-                new Expense("B", "b3", "banana"),
-                new Expense("C", "c2", "carambola")
-        );
+        expenses = new ArrayList<>();
+        expenses.add(new Expense("A", "a1", "apple"));
+        expenses.add(new Expense("B", "b3", "banana"));
+        expenses.add(new Expense("C", "c2", "carambola"));
+
         expensesSubject = BehaviorSubject.createDefault(expenses);
     }
 
