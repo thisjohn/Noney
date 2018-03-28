@@ -43,6 +43,11 @@ public class ExpenseBriteDataSource implements ExpenseDataSource {
         );
     }
 
+    @Override
+    public void insertOrUpdateExpense(Expense expense) {
+        throw new UnsupportedOperationException();
+    }
+
     public Flowable<List<Expense>> getExpenses() {
         String sql = "SELECT id, content, details FROM expenses";
 

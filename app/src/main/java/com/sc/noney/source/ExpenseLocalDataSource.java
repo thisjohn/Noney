@@ -31,6 +31,12 @@ public class ExpenseLocalDataSource implements ExpenseDataSource {
     }
 
     @Override
+    public void insertOrUpdateExpense(Expense expense) {
+        // TODO
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
     public Flowable<List<Expense>> getExpenses() {
         return appDatabase.expenseDao().getAll();
     }

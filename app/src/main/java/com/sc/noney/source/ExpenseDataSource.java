@@ -12,5 +12,7 @@ import io.reactivex.Flowable;
 
 public interface ExpenseDataSource {
 
+    void insertOrUpdateExpense(Expense expense);
+
     Flowable<List<Expense>> getExpenses();
 }
